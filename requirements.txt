@@ -33,7 +33,7 @@ idna==2.10
 image==1.5.32
 imutils==0.5.3
 ipykernel==5.4.3
-ipython==7.20.0
+ipython==7.15.0
 ipython-genutils==0.2.0
 isort==5.7.0
 itsdangerous==1.1.0
