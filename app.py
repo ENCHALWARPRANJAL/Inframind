@@ -23,7 +23,7 @@ def users():
         obj.createCsv(result)
         result=obj.operationHandling()
         obj.pie_chart()
-        return render_template("pie_chart.html")
+        return render_template("result.html")
 
 
 
