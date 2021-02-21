@@ -45,6 +45,7 @@ def user():
         obj=fetchData()
         obj.createCsv(result)
         result=obj.operationHandling()
+<<<<<<< HEAD
         dats=obj.pie_chart()
         cursor.execute("select tweet from f")
         results = cursor.fetchall()
@@ -56,6 +57,18 @@ def user():
 def download_file():
     p="file.csv"
     return send_file(p,as_attachment=True)
+=======
+        return render_template("result.html",result=result)
+@app.route('/pie_chart',methods=["POST","GET"])
+def users():
+    if request.method=='POST':
+        result=request.form["firstname"]
+        obj=fetchData()
+        obj.createCsv(result)
+        result=obj.operationHandling()
+        obj.pie_chart()
+        return render_template("result.html")
+>>>>>>> de8da46a7576fae7d3be83fe8202f02d85b3e10a
 
 @app.route('/compare')
 def hi():
@@ -124,5 +137,8 @@ def input():
 
 if __name__=='__main__':
     app.run(debug=True)
+<<<<<<< HEAD
 
  
+=======
+>>>>>>> de8da46a7576fae7d3be83fe8202f02d85b3e10a
