@@ -6,10 +6,26 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta charset="utf-8" />
+  <title>{{ title }}</title>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js'></script>
 <style>
-body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+body,h1,h2,h3,h4,h5,h6,p {font-family: "Lato", sans-serif}
 .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
 .fa-anchor,.fa-coffee {font-size:200px}
+.btn {
+  background-color: DodgerBlue;
+  border: none;
+  color: white;
+  padding: 12px 30px;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+/* Darker background on mouse-over */
+.btn:hover {
+  background-color: RoyalBlue;
+}
 </style>
 <body>
 
@@ -17,7 +33,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 <div class="w3-top">
   <div class="w3-bar w3-red w3-card w3-left-align w3-large">
     <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-    <a href="#" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
+    <a href="http://127.0.0.1:5000/" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
   
   </div>
 
@@ -46,8 +62,6 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
       <div class="row">
         <div class="col-25">
         </div>
-        <div class="col-75">
-        </div>
       </div>
      </div>  
     </div>    
@@ -55,10 +69,40 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
 </form>
 </header>
 
+<canvas id="pie-chart" width="1000" height="450"></canvas>
+<div class="w3-card-4 w3-margin w3-white">
+  <img  style="width:100%">
+    <div class="w3-container">
+      <h3><b>Some recent tweets</b></h3>
+      <h5> <span class="w3-opacity"></span></h5>
+    </div>
 
+    <div class="w3-container">
+      <p>{% for row in da %}
+        <p>{{ row[0] }}</p>
+        <p>{{ row[1] }}</p>
+        {% endfor %}</p>
+      <div class="w3-row">
+        <div class="w3-col m8 s12">
+         
+        </div>
+        
+      </div>
+    </div>
+  </div>
 
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+<!-- Auto width -->
+<button class="btn" style="width: 100%"><i class="fa fa-download"></i><a href="{{url_for('download_file')}}">Download file Click me.</a></button>
+
+<br><br>
+<button class="btn" style="width: 100%"><a href="{{ url_for('hi') }}">Comparator</a></button>
+
+ 
 <script>
+
 // Used to toggle the menu on small screens when clicking on the menu button
 function myFunction() {
   var x = document.getElementById("navDemo");
@@ -68,6 +112,25 @@ function myFunction() {
     x.className = x.className.replace(" w3-show", "");
   }
 }
+new Chart(document.getElementById("pie-chart"), {
+    type: 'pie',
+    data: {
+      labels: ["Positive", "Negative", "Neutral"],
+      datasets: [{
+        label: "Sentiments",
+        backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f"],
+        data: [{{dats['Positive']}},{{dats['Negative']}},{{dats['Neutral']}}]
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'What people think right now about the product'
+      }
+    }
+});
+
+    
 </script>
 
 </body>

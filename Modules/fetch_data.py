@@ -7,7 +7,11 @@ import preprocessor as p
 import pandas as pd
 from Modules.vader_sentiment import vaderSentiment
 from flask import Flask
-import matplotlib.pyplot as plt
+import io
+import random
+from flask import Response
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.figure import Figure
 #ssl._create_default_https_context = ssl._create_unverified_context
 # Oauth keys
 consumer_key = "1ho3OMBb8ydSNSRnE2Nw0GLxy"
@@ -48,22 +52,11 @@ class fetchData:
         countPositive=((len(positiveFeed))/(len(positiveFeed)+len(negativeFeed)+len(neutralFeed)))*100
         countNegative=((len(negativeFeed))/(len(positiveFeed)+len(negativeFeed)+len(neutralFeed)))*100
         countNeutral=((len(neutralFeed))/(len(positiveFeed)+len(negativeFeed)+len(neutralFeed)))*100
-        #print(int(max(countNegative,countNeutral,countPositive)))
         resultantDict={}
         resultantDict['Positive']=countPositive
         resultantDict['Negative']=countNegative
         resultantDict['Neutral']=countNeutral
         Keymax=max(resultantDict,key=resultantDict.get)
-        labels='Positive','Neutral','Negative'
-        countPositive=((len(positiveFeed))/(len(positiveFeed)+len(negativeFeed)+len(neutralFeed)))*100
-        countNegative=((len(negativeFeed))/(len(positiveFeed)+len(negativeFeed)+len(neutralFeed)))*100
-        countNeutral=((len(neutralFeed))/(len(positiveFeed)+len(negativeFeed)+len(neutralFeed)))*100
-        sizes=[countPositive,countNeutral,countNegative]
-        explode = (0, 0.1, 0)
-        fig1, ax1 = plt.subplots()
-        ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',shadow=True, startangle=90)
-        ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-        plt.show()
         return Keymax
     def pie_chart(self):
         df=pd.read_csv('file-name.csv',header=None)
@@ -82,29 +75,15 @@ class fetchData:
         countPositive=((len(positiveFeed))/(len(positiveFeed)+len(negativeFeed)+len(neutralFeed)))*100
         countNegative=((len(negativeFeed))/(len(positiveFeed)+len(negativeFeed)+len(neutralFeed)))*100
         countNeutral=((len(neutralFeed))/(len(positiveFeed)+len(negativeFeed)+len(neutralFeed)))*100
-        #print(int(max(countNegative,countNeutral,countPositive)))
         resultantDict={}
         resultantDict['Positive']=countPositive
         resultantDict['Negative']=countNegative
         resultantDict['Neutral']=countNeutral
-        Keymax=max(resultantDict,key=resultantDict.get)
-        labels='Positive','Neutral','Negative'
         countPositive=((len(positiveFeed))/(len(positiveFeed)+len(negativeFeed)+len(neutralFeed)))*100
         countNegative=((len(negativeFeed))/(len(positiveFeed)+len(negativeFeed)+len(neutralFeed)))*100
         countNeutral=((len(neutralFeed))/(len(positiveFeed)+len(negativeFeed)+len(neutralFeed)))*100
-        sizes=[countPositive,countNeutral,countNegative]
-        explode = (0, 0.1, 0)
-        fig1, ax1 = plt.subplots()
-        ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',shadow=True, startangle=90)
-        ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-        plt.show()
+        data={'Task':'Pie chart','Positive':countPositive,'Negative':countNegative,'Neutral':countNeutral}
+        return data
         
 
-#def main():
-    #obj=fetchData() 
-    #searchElement="Nokia"
-    #obj.createCsv(searchElement)
-    #obj.operationHandling()
 
-#if __name__=="__main__":
-    #main()
